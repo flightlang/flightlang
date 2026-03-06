@@ -1,0 +1,10 @@
+[project]
+name = "flightlang-poc"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "FlightLang - a tiny DSL for drone missions (PoC)"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+flight = "flightlang.cli:main"

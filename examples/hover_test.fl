@@ -1,0 +1,17 @@
+mission HoverTest {
+  state Idle {
+    on arm -> Takeoff
+  }
+
+  state Takeoff {
+    action climb_to(10 m)
+    on reached_altitude -> Hover
+  }
+
+  state Hover {
+    deadline 3000 ms
+    on timeout -> Done
+  }
+
+  state Done { }
+}

@@ -1,0 +1,36 @@
+// Variables with units
+let cruise_alt: m = 60 m
+let max_speed: mps = 12 mps
+
+mission Survey {
+  preflight requires GPS_LOCK
+  geofence keepout polygon "worksite-a"
+
+  state Idle {
+    on arm -> Takeoff
+  }
+
+  state Takeoff {
+    action climb_to(cruise_alt) @ max_speed
+    on reached_altitude -> Transit
+  }
+
+  state Transit {
+    action goto(waypoint_grid(spacing: 25 m, bearing: 90 deg))
+    on obstacle_detected -> Avoid
+    on grid_complete -> RTL
+  }
+
+  state Avoid {
+    deadline 50 ms
+    action sidestep(5 m) then resume
+    on clear -> Transit
+  }
+
+  state RTL {
+    action return_to_launch()
+    on landed -> Done
+  }
+
+  state Done { }
+}
